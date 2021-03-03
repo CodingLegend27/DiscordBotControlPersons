@@ -13,7 +13,7 @@ bot = commands.Bot(
     description="Kinderaufsicht",
     case_insensitive=True,
     intents=intents,
-    activity=discord.Game(name="Forniteee")
+    activity=discord.Game(name="Fortniteee")
 )
 cogs = ['cogs.bot']
 
