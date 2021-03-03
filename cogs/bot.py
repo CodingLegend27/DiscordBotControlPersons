@@ -109,6 +109,13 @@ class Bot(commands.Cog):
         """ status of the bot """
         members = ctx.guild.members
         
+        # await self.change_presence(activity=discord.Game(name="a game"))
+        
+        print("hello")
+        # activityvar = discord.Game(name="Fornite")
+        # await self.change_presence(activity=activityvar)
+
+        
         # print(f"type {type(members[0])}")
         
         # for member in members:
@@ -161,7 +168,7 @@ class Bot(commands.Cog):
         
         await ctx.send("> Kinderaufsicht eingestaltet!!! 🚨🚨🚨")
 
-
+    
 
     async def check_connected(self, context) -> bool:
         voice_state = context.member.voice

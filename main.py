@@ -1,10 +1,10 @@
 import discord
+from discord import activity
 from discord.ext import commands
 from discord.ext.commands.errors import CommandNotFound
 import os
 
 TOKEN = os.getenv('DISCORD_TOKEN')
-# TOKEN = "ODE2NDI4OTQ2NjU2NTkxOTIx.YD60tQ.Pq2KNFDQs-4ltn9JnuIaSpGq-gE"
 
 intents = discord.Intents.default()
 intents.members = True
@@ -12,7 +12,8 @@ bot = commands.Bot(
     command_prefix="!",
     description="Kinderaufsicht",
     case_insensitive=True,
-    intents=intents
+    intents=intents,
+    activity=discord.Game(name="Forniteee")
 )
 cogs = ['cogs.bot']
 
