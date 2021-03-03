@@ -3,8 +3,8 @@ from discord.ext import commands
 from discord.ext.commands.errors import CommandNotFound
 import os
 
-# TOKEN = os.getenv('DISCORD_TOKEN')
-TOKEN = "ODE2NDI4OTQ2NjU2NTkxOTIx.YD60tQ.Pq2KNFDQs-4ltn9JnuIaSpGq-gE"
+TOKEN = os.getenv('DISCORD_TOKEN')
+# TOKEN = "ODE2NDI4OTQ2NjU2NTkxOTIx.YD60tQ.Pq2KNFDQs-4ltn9JnuIaSpGq-gE"
 
 intents = discord.Intents.default()
 intents.members = True
