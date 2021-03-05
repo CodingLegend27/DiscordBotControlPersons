@@ -11,7 +11,9 @@ url = "https://discord.com/api/webhooks/816450174603886664/k3jnSrUsai543y7T_PLoh
 
 # for more params: https://discordapp.com/developers/docs/resources/webhook#execute-webhook
 data = {
-    "username": "Wildes Python Skript"
+    "username": "Wildes Python Skript",
+    "type": 1,
+    
 }
 
 
@@ -20,7 +22,7 @@ def call_disconnect():
     data["content"] = "!kicken daniel"
 
 def call_mute():
-    data["content"] = "!mute daniel"
+    data["content"] = "!mute chrissi"
 
 def call_unmute():
     data["content"] = "!unmute daniel"

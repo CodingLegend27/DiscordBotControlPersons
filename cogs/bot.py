@@ -7,6 +7,8 @@ import discord
 from discord import message
 from discord.ext import commands
 from discord.ext.commands import Context
+from discord.ext.commands.core import command
+from discord.abc import Messageable
 
 
 class Bot(commands.Cog):
@@ -24,9 +26,12 @@ class Bot(commands.Cog):
         self.dan1string = "DANI#2390"
         self.dan2string = "DANI#8237"
         self.chrissistring ="Chrissi#0997"
+        
+        self.felixstring = "LiveYourTIme#1683"
 
         self.daniel_names = ["daniel", "dani", "downiel"]
         self.chriss_names = ["chrissi", "chris"]
+        self.felix_names = ["felix", "fixel", "fixl"]
 
         # global variables
         # self.dan1
@@ -41,18 +46,21 @@ class Bot(commands.Cog):
     )
     async def kicken(self, ctx, arg):
         """ disconnect a person from the voice channel """
+        print(ctx)
+        print(arg)
+        
         if not self.connected:
             await self.connect(ctx)
         
-        response = f"> {arg} wird gekickt!"
-        await ctx.send(response)
-        
         if arg in self.daniel_names:
-            await self.kick(self.dan1)
-            await self.kick(self.dan2)
+            await self.kick(self.dan1, ctx)
+            await self.kick(self.dan2, ctx)
         
         elif arg in self.chriss_names:
-            await self.kick(self.chrissi)
+            await self.kick(self.chrissi, ctx)
+            
+        elif arg in self.felix_names:
+            await self.kick(self.felix, ctx)
 
     # def add_commands(self):
         # @self.command(name="status", pass_context=True)
@@ -65,19 +73,19 @@ class Bot(commands.Cog):
         """ mute a person serverwide """
         if not self.connected:
             await self.connect(ctx)
-            
-        response = f"> {arg} wird gemutet!"
-        await ctx.send(response)
-        
+
         # INFO await nicht vergessen
         
         if arg in self.daniel_names:
-            await self.set_to_muted(self.dan1)
-            await self.set_to_muted(self.dan2)
+            await self.set_to_muted(self.dan1, ctx)
+            await self.set_to_muted(self.dan2, ctx)
         
         elif arg in self.chriss_names:
             print("log: ban chris")
-            await self.set_to_muted(self.chrissi)
+            await self.set_to_muted(self.chrissi, ctx)
+            
+        elif arg in self.felix_names:
+            await self.set_to_muted(self.felix, ctx)
 
     @commands.command(
         name='unmute',
@@ -88,18 +96,18 @@ class Bot(commands.Cog):
         """ unmute a person serverwide """
         if not self.connected:
             await self.connect(ctx)
-        
-        response = f"> {arg} wird ungemutet!"
-        await ctx.send(response)
+
         
         if arg in self.daniel_names:
-            await self.set_to_unmuted(self.dan1)
-            await self.set_to_unmuted(self.dan2)
+            await self.set_to_unmuted(self.dan1, ctx)
+            await self.set_to_unmuted(self.dan2, ctx)
         
         elif arg in self.chriss_names:
-            await self.set_to_unmuted(self.chrissi)
+            await self.set_to_unmuted(self.chrissi, ctx)
         
-    
+        elif arg in self.felix_names:
+            await self.set_to_unmuted(self.felix, ctx)
+            
     @commands.command(
         name="connect",
         description="status of the bot",
@@ -133,10 +141,14 @@ class Bot(commands.Cog):
                 self.dan2 = members[i].id
             elif str(members[i]) == self.chrissistring:
                 self.chrissi = members[i].id
+            elif str(members[i]) == self.felixstring:
+                self.felix = members[i].id
         
         self.dan1 = ctx.message.guild.get_member(self.dan1)
         self.dan2 = ctx.message.guild.get_member(self.dan2)
         self.chrissi = ctx.message.guild.get_member(self.chrissi)
+        
+        self.felix = ctx.message.guild.get_member(self.felix)
 
 
         
@@ -166,9 +178,18 @@ class Bot(commands.Cog):
         
         self.connected = True
         
+        await ctx.send("> Bot presence t u r n e d on ( ͡° ͜ʖ ͡°)")
         await ctx.send("> Kinderaufsicht eingestaltet!!! 🚨🚨🚨")
 
-    
+    # TODO finish
+    # @commands.command()
+    # async def clear(self, ctx, number):
+    #     mgs = []
+    #     number = int(number)
+    #     async for x in Messageable.history(ctx.message.channel, limit=number):
+    #         if x[0]=='!': mgs.append(x)
+    #     # await ctx.delete_messages(mgs)
+    #     await self.delete_nam 
 
     async def check_connected(self, context) -> bool:
         voice_state = context.member.voice
@@ -179,21 +200,27 @@ class Bot(commands.Cog):
         print(f"{bot.user.name} has connected to Discord!")
 
 
-    async def set_to_muted(self, member: discord.Member):
+    async def set_to_muted(self, member: discord.Member, ctx):
         if member is None: return
-        print("log muteee")
+        
+        response = f"> {member} wird gemutet!"
+        await ctx.send(response)
+        
         await member.edit(mute=True)
 
     # @bot.event()
-    async def set_to_unmuted(self, member: discord.Member):
+    async def set_to_unmuted(self, member: discord.Member, ctx):
         if member is None: return
-        
+        response = f"> {member} wird ungemutet!"
+        await ctx.send(response)
         await member.edit(mute=False)
         
     # @bot.event()
-    async def kick(self, member: discord.Member):
+    async def kick(self, member: discord.Member, ctx):
         if member is None: return
         
+        response = f"> {member} wird gekickt!"
+        await ctx.send(response)
         await member.edit(voice_channel=None)
         
     # # @client.command()
@@ -208,11 +235,20 @@ class Bot(commands.Cog):
         
     # @bot.command()
     
+    
+    # async def on_message(self, message):
+    #     # ctx = await bot.get_context(message)
+    #     ctx = await ctx.message.guild.get_context(message)
+    #     if 
+        
+    
+    
 
-    # @bot.event
-    # async def on_message(message: discord.message):
+    # # @bot.event
+    # async def on_message(self, message: discord.message):
     #     """reaction to the send message of a mod/webhook"""
-
+    #     print(message)
+        
     #     for member in message.guild.members:
     #         print(member)
     #         if str(member) == dan1string:
