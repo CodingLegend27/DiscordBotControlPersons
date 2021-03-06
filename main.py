@@ -63,7 +63,7 @@ async def on_message(message):
         # await on_message(cnt)
 
     
-    if (message.content[0]=='!') await message.edit(delete_after=6.942)
+    if (message.content[0]=='!'): await message.edit(delete_after=6.942)
     
     
     
