@@ -2,3 +2,4 @@
 env
 ignoring
 .DS_Store
+__pycache__
