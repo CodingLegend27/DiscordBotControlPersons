@@ -109,6 +109,29 @@ class Bot(commands.Cog):
             await self.set_to_unmuted(self.felix, ctx)
             
     @commands.command(
+        name='silence',
+        description="mute and deaf a person",
+        aliases=["s"]
+    )
+    async def silence(self, ctx, arg):
+        """ silence: mute and deafe a person serverwide """
+        if not self.connected:
+            await self.connect(ctx)
+        
+        await self.mute(ctx, arg)
+        
+        if arg in self.daniel_names:
+            await self.set_to_deafen(self.dan1, ctx)
+            await self.set_to_deafen(self.dan2, ctx)
+        
+        elif arg in self.chriss_names:
+            await self.set_to_deafen(self.chrissi, ctx)
+        
+        elif arg in self.felix_names:
+            await self.set_to_deafen(self.felix, ctx)
+    
+
+    @commands.command(
         name="connect",
         description="status of the bot",
         aliases=['c']
@@ -181,6 +204,7 @@ class Bot(commands.Cog):
         await ctx.send("> Bot presence t u r n e d on ( ͡° ͜ʖ ͡°)")
         await ctx.send("> Kinderaufsicht eingestaltet!!! 🚨🚨🚨")
 
+
     # TODO finish
     # @commands.command()
     # async def clear(self, ctx, number):
@@ -214,7 +238,14 @@ class Bot(commands.Cog):
         response = f"> {member} wird ungemutet!"
         await ctx.send(response)
         await member.edit(mute=False)
+        await member.edit(deafen=False)
         
+    async def set_to_deafen(self, member: discord.Member, ctx):
+        if member is None: return
+        response = f"> {member} wird taub!"
+        await ctx.send(response)
+        await member.edit(deafen=True)    
+    
     # @bot.event()
     async def kick(self, member: discord.Member, ctx):
         if member is None: return
