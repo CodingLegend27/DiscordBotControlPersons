@@ -82,7 +82,9 @@ class Bot(commands.Cog):
         
         elif arg in self.chriss_names:
             print("log: ban chris")
-            await self.set_to_muted(self.chrissi, ctx)
+            await ctx.send("> sooo nicht")
+            # TODO enable
+            # await self.set_to_muted(self.chrissi, ctx)
             
         elif arg in self.felix_names:
             await self.set_to_muted(self.felix, ctx)
@@ -103,7 +105,10 @@ class Bot(commands.Cog):
             await self.set_to_unmuted(self.dan2, ctx)
         
         elif arg in self.chriss_names:
-            await self.set_to_unmuted(self.chrissi, ctx)
+            await ctx.send("> hahaha")
+            
+            # TODO enable
+            # await self.set_to_unmuted(self.chrissi, ctx)
         
         elif arg in self.felix_names:
             await self.set_to_unmuted(self.felix, ctx)
@@ -125,7 +130,10 @@ class Bot(commands.Cog):
             await self.set_to_deafen(self.dan2, ctx)
         
         elif arg in self.chriss_names:
-            await self.set_to_deafen(self.chrissi, ctx)
+            await ctx.send("> willst du mich verarschen???")
+            
+            # TODO enable
+            # await self.set_to_deafen(self.chrissi, ctx)
         
         elif arg in self.felix_names:
             await self.set_to_deafen(self.felix, ctx)
