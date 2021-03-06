@@ -11,9 +11,7 @@ url = "https://discord.com/api/webhooks/816450174603886664/k3jnSrUsai543y7T_PLoh
 
 # for more params: https://discordapp.com/developers/docs/resources/webhook#execute-webhook
 data = {
-    "username": "Wildes Python Skript",
-    "type": 1,
-    
+    "username": "Wildes Python Skript",    
 }
 
 
@@ -26,6 +24,9 @@ def call_mute():
 
 def call_unmute():
     data["content"] = "!unmute daniel"
+    
+def call_silence(): 
+    data["content"] = "!silence chrissi"
 
 
 # # for more params: https://discordapp.com/developers/docs/resources/channel#embed-object
@@ -49,5 +50,5 @@ def send_request():
         
         
 if __name__ == "__main__":
-    call_mute()
+    call_silence()
     send_request()
