@@ -5,3 +5,4 @@ ignoring
 __pycache__
 cogs/__pycache__
 names.txt
+admin.txt
