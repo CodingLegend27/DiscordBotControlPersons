@@ -20,13 +20,13 @@ def call_disconnect():
     data["content"] = "!kicken daniel"
 
 def call_mute():
-    data["content"] = "!mute chrissi"
+    data["content"] = "!mute daniel"
 
 def call_unmute():
     data["content"] = "!unmute daniel"
     
 def call_silence(): 
-    data["content"] = "!silence chrissi"
+    data["content"] = "!silence daniel"
 
 
 # # for more params: https://discordapp.com/developers/docs/resources/channel#embed-object
