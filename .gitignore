@@ -4,3 +4,4 @@ ignoring
 .DS_Store
 __pycache__
 cogs/__pycache__
+names.txt
