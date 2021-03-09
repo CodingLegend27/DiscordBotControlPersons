@@ -15,6 +15,11 @@ class Bot(commands.Cog):
         
         # load name's list
         self.name_to_tags, self.tag_to_names = NamesLoader().load_file("names.txt")
+        
+        with open("admin.txt") as f:
+            content = f.readlines()
+        
+        self.admins = [x.strip() for x in content]
 
     @commands.command(
         name="kicken",
@@ -24,6 +29,16 @@ class Bot(commands.Cog):
     async def kicken(self, ctx, arg):
         """ disconnect a person from the voice channel """                
         arg = arg.lower()
+        
+        if arg == "all":
+            if str(ctx.author) in self.admins:
+                members = await self.get_members_voice_channel(ctx)
+                for m in members:
+                    if m.id != ctx.author.id: 
+                        await self.kick(m, ctx)
+            else:
+                await ctx.send("> HAHAHAHA")
+            
         if arg in self.name_to_member:
             for m in self.name_to_member[arg]:
                 await self.kick(m, ctx)
@@ -38,7 +53,17 @@ class Bot(commands.Cog):
     async def mute(self, ctx, arg):
         """ mute a person serverwide """
         arg = arg.lower()
-        if arg in self.name_to_member:
+        
+        if arg == "all":
+            if str(ctx.author) in self.admins:
+                members = await self.get_members_voice_channel(ctx)
+                for m in members:
+                    if m.id != ctx.author.id: 
+                        await self.set_to_muted(m, ctx)
+            else:
+                await ctx.send("> HAHAHAHA")
+
+        elif arg in self.name_to_member:
             for m in self.name_to_member[arg]:
                 await self.set_to_muted(m, ctx)
                 
@@ -52,7 +77,17 @@ class Bot(commands.Cog):
     async def unmute(self, ctx, arg):
         """ unmute a person serverwide """
         arg = arg.lower()
-        if arg in self.name_to_member:
+        
+        if arg == "all":
+            if str(ctx.author) in self.admins:
+                members = await self.get_members_voice_channel(ctx)
+                for m in members:
+                    if m.id != ctx.author.id: 
+                        await self.set_to_unmuted(m, ctx)
+            else:
+                await ctx.send("> HAHAHAHA")
+        
+        elif arg in self.name_to_member:
             for m in self.name_to_member[arg]:
                 await self.set_to_unmuted(m, ctx)
         
@@ -67,7 +102,18 @@ class Bot(commands.Cog):
     async def silence(self, ctx, arg):
         """ mute and deafe a person serverwide """
         arg = arg.lower()
-        if arg in self.name_to_member:
+        
+        if arg == "all":
+            if str(ctx.author) in self.admins:
+                members = await self.get_members_voice_channel(ctx)
+                for m in members:
+                    if m.id != ctx.author.id: 
+                        await self.set_to_muted(m, ctx)
+                        await self.set_to_deafen(m, ctx)
+            else:
+                await ctx.send("> HAHAHAHA")
+        
+        elif arg in self.name_to_member:
             for m in self.name_to_member[arg]:
                 await self.set_to_muted(m, ctx)
                 await self.set_to_deafen(m, ctx)
@@ -96,7 +142,7 @@ class Bot(commands.Cog):
                         self.name_to_member[name].append(m)
                     except KeyError as e:
                         self.name_to_member[name] = [m]
-            
+        
         for name in self.name_to_member:
             print(f"name: {name} -> {self.name_to_member[name]}")
 
@@ -138,6 +184,14 @@ class Bot(commands.Cog):
         response = f"> {member} wird gekickt!"
         await ctx.send(response)
         await member.edit(voice_channel=None)
+    
+    async def get_members_voice_channel(self, ctx):
+        """ get all members of a voice channel the author of the message is currently in """
+        voice_channel_id = ctx.author.voice.channel.id
+        channel = ctx.guild.get_channel(voice_channel_id)
+        members = channel.members
+        return members
+    
     
 def setup(bot):
     bot.add_cog(Bot(bot))
