@@ -136,6 +136,7 @@ class Bot(commands.Cog):
         print(f"[INFO] load members")
         for m in members:
             m_str = str(m)
+            m_str = ''.join(m_str.split())
             if m_str in self.tag_to_names:
                 for name in self.tag_to_names[m_str]:
                     try:
