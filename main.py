@@ -7,9 +7,9 @@ import discord
 from discord import activity
 from discord.ext import commands
 from discord.ext.commands.errors import CommandNotFound
-import os
+import config
 
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = config.DISCORD_TOKEN
 
 intents = discord.Intents.all()
 
