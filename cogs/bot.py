@@ -161,30 +161,46 @@ class Bot(commands.Cog):
 
     async def set_to_muted(self, member: discord.Member, ctx):
         if member is None: return
-        
-        response = f"> {member} wird gemutet!"
-        await ctx.send(response)
-        
-        await member.edit(mute=True)
+        if (member.voice):
+            if (member.voice.channel):
+                response = f"> {member} wird in {member.voice.channel} gemutet!"
+                await ctx.send(response)
+                await member.edit(mute=True)
+                
+        else:
+            await ctx.send(f" > {member} ist nicht verbunden!")
 
     async def set_to_unmuted(self, member: discord.Member, ctx):
         if member is None: return
-        response = f"> {member} wird ungemutet!"
-        await ctx.send(response)
-        await member.edit(mute=False)
-        await member.edit(deafen=False)
-        
+        if (member.voice):
+            if (member.voice.channel):
+                response = f"> {member} wird in {member.voice.channel} ungemutet!"
+                await ctx.send(response)
+                await member.edit(mute=False)
+                await member.edit(deafen=False)
+        else:
+            await ctx.send(f" > {member} ist nicht verbunden!")
+
     async def set_to_deafen(self, member: discord.Member, ctx):
         if member is None: return
-        response = f"> {member} wird taub!"
-        await ctx.send(response)
-        await member.edit(deafen=True)    
-    
+        if (member.voice):
+            if (member.voice.channel):
+                response = f"> {member} in {member.voice.channel} wird taub!"
+                await ctx.send(response)
+                await member.edit(deafen=True)    
+        else:
+            await ctx.send(f" > {member} ist nicht verbunden!")
+
     async def kick(self, member: discord.Member, ctx):
         if member is None: return
-        response = f"> {member} wird gekickt!"
-        await ctx.send(response)
-        await member.edit(voice_channel=None)
+        if (member.voice):
+            if (member.voice.channel):
+                response = f"> {member} wird in {member.voice.channel} gekickt!"
+                await ctx.send(response)
+                await member.edit(voice_channel=None)
+        
+        else:
+            await ctx.send(f" > {member} ist nicht verbunden!")
     
     async def get_members_voice_channel(self, ctx):
         """ get all members of a voice channel the author of the message is currently in """
